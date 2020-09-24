@@ -3,16 +3,15 @@
 ######生信自学网: http://www.biowolf.cn/
 ######合作邮箱：2749657388@qq.com
 ######答疑微信: 18520221056
-
 #if (!requireNamespace("BiocManager", quietly = TRUE))
 #    install.packages("BiocManager")
 #BiocManager::install("limma", version = "3.8")
 
 library("limma")
 
-setwd("C:\\Users\\26024\\Desktop\\m6a\\WHJ\\12.StromalDiff")     #设置工作目录
+setwd("C:\\Users\\lexb4\\Desktop\\tcgaEstimate\\14.ImmuneDiff")     #设置工作目录
 inputFile="symbol.txt"                                           #输入文件
-scoreFile="StromalScore.txt"                                           #score文件
+scoreFile="ImmuneScore.txt"                                           #score文件
 fdrFilter=0.05                                                   #fdr临界值
 logFCfilter=1                                                    #logFC临界值
 
@@ -67,12 +66,11 @@ write.table(outTab,file="all.xls",sep="\t",row.names=F,quote=F)
 
 #输出差异表格
 outDiff=outTab[( abs(as.numeric(as.vector(outTab$logFC)))>logFCfilter & as.numeric(as.vector(outTab$fdr))<fdrFilter),]
-write.table(outDiff,file="StromalDiff.xls",sep="\t",row.names=F,quote=F)
+write.table(outDiff,file="ImmuneDiff.xls",sep="\t",row.names=F,quote=F)
 up=outTab[( as.numeric(as.vector(outTab$logFC))>logFCfilter & as.numeric(as.vector(outTab$fdr))<fdrFilter),]
-write.table(up,file="StromalUp.txt",sep="\t",row.names=F,quote=F)
+write.table(up,file="ImmuneUp.txt",sep="\t",row.names=F,quote=F)
 down=outTab[( as.numeric(as.vector(outTab$logFC))< -logFCfilter & as.numeric(as.vector(outTab$fdr))<fdrFilter),]
-write.table(down,file="StromalDown.txt",sep="\t",row.names=F,quote=F)
-
+write.table(down,file="ImmuneDown.txt",sep="\t",row.names=F,quote=F)
 
 #绘制热图需要的文件
 heatmap=rbind(ID=colnames(data[as.vector(outDiff[,1]),]),data[as.vector(outDiff[,1]),])
